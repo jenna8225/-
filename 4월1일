@@ -1,63 +1,71 @@
 #include <iostream>
 using namespace std;
 
+int train1[5][4], train2[5][4], train3[5][4];
+int car, row, seat;
+int adult, child;
 
-const int CARS = 3;   // 호차 수
-const int ROWS = 5;   // 각 호차당 행 수
-const int COLS = 4;   // 좌석 수 (좌2 + 우2)
-int train[CARS][ROWS][COLS] = { 0 };
-
-void printHeader(int u) {
-    cout << "12   34(" << u + 1 << "호차)" << endl; //u(호차)를 변수 하나 더 둬야 입력받기 가능
-}
-
-void printDivider() {
+void printCar(int train1[5][4], int train2[5][4], int train3[5][4]) {          //화면에 출력해줌
+    cout << "12   34(" << 1 << "호차)" << endl; 
     cout << "--------" << endl;
-}
-
-void printCar(int seats[5][4], int u) {          //화면에 출력해줌
-        printHeader(u);
-        printDivider();
-        for (int i = 0; i < 5; i++) {             // 가로 출력
-            for (int j = 0; j < 2; j++) {           // 왼쪽 2좌석
-                cout << (seats[i][j] == 1 ? "1" : "0");  //??
-            }
-            cout << "   ";
-            for (int j = 2; j < 4; j++) {                         // 오른쪽 2좌석
-                cout << (seats[i][j] == 1 ? "1" : "0");           //??
-            }
-            cout << endl;
+    for (int i = 0; i < 5; i++) {             // 가로 출력
+        for (int j = 0; j < 2; j++) {           // 왼쪽 2좌석
+            cout << (train1[i][j] == 1 ? "1" : "0");  //??
         }
-        printDivider();
-    
-}
+        cout << "   ";
 
-void printAllCars(int train[3][5][4]) {     //train 배열
-    for (int car = 0; car < 3; car++) {
-        printCar(train[car], car);    // train[0], 0 : ???
+        for (int j = 2; j < 4; j++) {                         // 오른쪽 2좌석
+            cout << (train1[i][j] == 1 ? "1" : "0");           //??
+        }
+        cout << endl;
+    }
+
+    cout << "--------" << endl;
+    cout << "12   34(" << 2 << "호차)" << endl;
+    cout << "--------" << endl;
+    for (int i = 0; i < 5; i++) {             // 가로 출력
+        for (int j = 0; j < 2; j++) {           // 왼쪽 2좌석
+            cout << (train2[i][j] == 1 ? "1" : "0");  //??
+        }
+        cout << "   ";
+        for (int j = 2; j < 4; j++) {                         // 오른쪽 2좌석
+            cout << (train2[i][j] == 1 ? "1" : "0");           //??
+        }
+        cout << endl;
+    }
+    cout << "--------" << endl;
+    cout << "12   34(" << 3 << "호차)" << endl;
+    cout << "--------" << endl;
+    for (int i = 0; i < 5; i++) {             // 가로 출력
+        for (int j = 0; j < 2; j++) {           // 왼쪽 2좌석
+            cout << (train3[i][j] == 1 ? "1" : "0");  //??
+        }
+        cout << "   ";
+        for (int j = 2; j < 4; j++) {                         // 오른쪽 2좌석
+            cout << (train3[i][j] == 1 ? "1" : "0");           //??
+        }
+        cout << endl;
     }
 }
 
 int main() {
     while (true) {
-        
+
         int num1;
-            cout << "**기차 예약 시스템**" << endl;
-            cout << "1. 좌석 예약 시스템" << endl;
-            cout << "2. 예약 변경" << endl;
-            cout << "3. 프로그램 종료" << endl;
-            cout << "번호를 입력하세요 : ";
-            cin >> num1;
+        cout << "**기차 예약 시스템**" << endl;
+        cout << "1. 좌석 예약 시스템" << endl;
+        cout << "2. 예약 변경" << endl;
+        cout << "3. 프로그램 종료" << endl;
+        cout << "번호를 입력하세요 : ";
+        cin >> num1;
 
         switch (num1) {
         case 1: {
 
-            printAllCars(train);
+            printCar(train1, train2, train3);
 
-            int train[3][5][4] = { {{0}} }; // 3차원 배열: [호차][행][좌석]
 
             int reserveCount;
-            int adult, child;
             cout << "성인(25000원):";
             cin >> adult;
             cout << "청소년(18000원):";
@@ -65,57 +73,184 @@ int main() {
             reserveCount = adult + child;
 
             for (int i = 0; i < reserveCount; i++) {
-                int car, row, seat;
+
                 cout << "\n몇 호차를 예약하시겠습니까? " << endl;
                 cin >> car;
-                if (car < 1 || car > 3) {
-                    cout << "예약 가능한 호차가 아닙니다." << endl;
-                    i--;
-                    continue;
-                }
 
                 cout << "몇열, 몇번째 좌석을 예약하시겠습니까? " << endl;
                 cin >> row >> seat;
-                
+
                 car--; row--; seat--;
 
-             
-               
+                if (car == 0) {
+                    if (row >= 0 && row < 5 && seat >= 0 && seat < 4) {
+                        if (train1[row][seat] == 0) {
+                            train1[row][seat] = 1;
+                            cout << "예약되었습니다.\n";
+                        }
 
-               if (row < 0 || row >= 5 || seat < 0 || seat > 4) {
-                    cout << "예약 가능한 좌석이 아닙니다." << endl;
-                    i--;
-                    continue;
-                }
-                else if (train[car - 1][row][seat - 1] == 1) {
-                    cout << "이미 예약되었습니다. 다른 자리를 선택하세요." << endl;
-                    i--;
-                    continue;
-                }
-                else {
-                    train[car - 1][row][seat - 1] = 1;
-                    cout << "예약되었습니다." << endl;
+                        else
+                            cout << "이미 예약되었습니다. 다른 자리를 선택하세요. \n";
+                    }
 
+                    else {
+                        cout << "예약가능한 호차가 아닙니다.\n";
+                    }
                 }
-                
+
+                else if (car < 0) {
+                    cout << "예약가능한 호차가 아닙니다.\n";
+                }
+
+                if (car == 1) {
+                    if (row >= 0 && row < 5 && seat >= 0 && seat < 4) {
+                        if (train2[row][seat] == 0) {
+                            train2[row][seat] = 1;
+                            cout << "예약되었습니다.\n";
+                        }
+
+                        else
+                            cout << "이미 예약되었습니다. 다른 자리를 선택하세요. \n";
+                    }
+
+                    else {
+                        cout << "예약가능한 좌석이 아닙니다.\n";
+                    }
+                }
+
+                else if (car < 0) {
+                    cout << "예약가능한 호차가 아닙니다.\n";
+                }
+
+                if (car == 2) {
+                    if (row >= 0 && row < 5 && seat >= 0 && seat < 4) {
+                        if (train3[row][seat] == 0) {
+                            train3[row][seat] = 1;
+                            cout << "예약되었습니다.\n";
+                        }
+
+                        else
+                            cout << "이미 예약되었습니다. 다른 자리를 선택하세요. \n";
+                    }
+
+                    else {
+                        cout << "예약가능한 호차가 아닙니다.\n";
+                    }
+                }
+
+                else if (car < 0) {
+                    cout << "예약가능한 호차가 아닙니다.\n";
+                }
+
             }
-            printAllCars(train); 
-               
-            }
-            
-           
-        
+            printCar(train1, train2, train3);
+            break;
+        }
 
-        case 2:
-            printAllCars(train);
+
+
+
+        case 2: {
+            printCar(train1, train2, train3);
             int num2;
-            int car, row, seat;
+            int chcar, chrow, chseat;
+            int realcar, realrow, realseat;
             cout << "바꿀 좌석의 갯수를 입력하세요 :";
             cin >> num2;
-            cout << "현재 좌석과 바꿀 좌석을 입력하세요 :";
-            //cout << "현재 좌석(H호차, N열, M번째):"<< car << row << seat;
-       
+
+
+            for (int i = 0; i < num2; i++) {
+                while (true) {
+                    cout << "현재 좌석과 바꿀 좌석을 입력하세요" << endl;
+                    cout << "현재 좌석(H호차, N열, M번째):";
+                    cin >> realcar >> realrow >> realseat;
+
+                    if (realcar == car && realrow == row || realseat == seat) {
+                        cout << "변경 좌석(H호차, N열, M번째):";
+                        cin >> chcar >> chrow >> chseat;
+                        chcar--; chrow--; chseat--;
+
+                        if (chcar == 0) {
+                            if (chrow >= 0 && chrow < 5 && chseat >= 0 && chseat < 4) {
+                                if (train1[chrow][chseat] == 0) {
+                                    train1[chrow][chseat] = 1;
+                                    cout << "예약되었습니다.\n";
+                                }
+
+                                else
+                                    cout << "똑같은 자리 입니다. 다른 좌석을 선택하세요. \n";
+                            }
+
+                            else {
+                                cout << "좌석번호를 다시 입력해주세요.\n";
+                            }
+                        }
+
+                        else if (chcar < 0) {
+                            cout << "좌석번호를 다시 입력해주세요.\n";
+                        }
+
+                        if (chcar == 1) {
+                            if (chrow >= 0 && chrow < 5 && chseat >= 0 && chseat < 4) {
+                                if (train2[chrow][chseat] == 0) {
+                                    train2[chrow][chseat] = 1;
+                                    cout << "예약되었습니다.\n";
+                                }
+
+                                else
+                                    cout << "똑같은 자리 입니다. 다른 좌석을 선택하세요. \n";
+                            }
+
+                            else {
+                                cout << "좌석번호를 다시 입력해주세요.\n";
+                            }
+                        }
+
+                        else if (chcar < 0) {
+                            cout << "좌석번호를 다시 입력해주세요.\n";
+                        }
+
+                        if (chcar == 2) {
+                            if (chrow >= 0 && chrow < 5 && chseat >= 0 && chseat < 4) {
+                                if (train3[chrow][chseat] == 0) {
+                                    train3[chrow][chseat] = 1;
+                                    cout << "예약되었습니다.\n";
+                                }
+
+                                else
+                                    cout << "똑같은 자리 입니다. 다른 좌석을 선택하세요. \n";
+                            }
+
+                            else {
+                                cout << "좌석번호를 다시 입력해주세요.\n";
+                            }
+                        }
+
+                        else if (chcar < 0) {
+                            cout << "좌석번호를 다시 입력해주세요.\n";
+                        }
+
+                    }
+
+                    cout << "현재 좌석이 틀렸습니다. 다시 입력해주세요." << endl;
+                    break;
+                }
+            }
+
+
+            printCar(train1, train2, train3);
+            break;
+
+        case 3: {
+            int num3 = 25000 * adult + 18000 * child;
+            cout << "총" << num3 << "원 입니다." << endl;
             return 0;
         }
+
+
+
+        }
+        }
+       
     }
 }
