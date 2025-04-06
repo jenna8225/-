@@ -165,7 +165,7 @@ int main() {
                     cout << "현재 좌석(H호차, N열, M번째):";
                     cin >> realcar >> realrow >> realseat;
 
-                    if (realcar == car && realrow == row || realseat == seat) {
+                    if (realcar == car && realrow == row && realseat == seat) {
                         cout << "변경 좌석(H호차, N열, M번째):";
                         cin >> chcar >> chrow >> chseat;
                         chcar--; chrow--; chseat--;
