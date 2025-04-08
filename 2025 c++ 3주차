@@ -1,0 +1,62 @@
+#include <iostream>
+using namespace std;
+int prices[] = { 12000, 15000, 11000, 17000, 13000 };
+
+
+void total(int* point, int* allcount) {
+	int sum = 0;
+	for (int i = 0; i < 5; i++) {
+		sum += prices[i] * allcount[i];
+	}
+	cout << "총 금액은"<< sum<<"원입니다." << endl;
+}
+
+int main() {
+	string menu[] = { "액션 DVD","코미디 DVD","드라마 DVD", "SF DVD", "애니메이션 DVD" };
+	int allcount[5] = { 0 };
+	int* point = prices;
+    int num1;
+	char yn;
+	int count;
+	while (true) {
+
+		cout << endl;
+
+		cout << "***** DVD 가게 주문 프로그램 *****" << endl;
+		cout << endl;
+		cout << "1. 액션 DVD (12000원)" << endl;
+		cout << "2. 코미디 DVD (15000원)" << endl;
+		cout << "3. 드라마 DVD (11000원)" << endl;
+		cout << "4. SF DVD (16000원)" << endl;
+		cout << "5. 애니메이션 DVD (13000원)" << endl;
+		cout << endl;
+		cout << "구매하실 DVD 번호를 입력하세요(종료는 0) :";
+		cin >> num1;
+
+		if (num1 == 0) {
+			total(point, allcount);
+			cout << "프로그램을 종료합니다." << endl;
+			break;
+		}
+		
+		else if (num1 < 1 || num1 > 5) {
+			cout << "올바른 번호를 입력하세요." << endl;
+			continue;
+		}
+		cout << *(menu + (num1 - 1)) << "을(를) 구매하시겠습니까? (Y/N) :";
+		cin >> yn;
+		if (yn == 'y' || yn == 'Y') {
+			cout << "구매하실 DVD 개수를 입력해주세요 :";
+			cin >> count;
+			allcount[num1 - 1] += count;
+			cout << *(menu + (num1 - 1)) << " " << count << "개를 구매하셨습니다." << endl;
+			cout << "가격은 " << *(prices + (num1 - 1)) * count<< "원 입니다." << endl;
+		}
+		else if (yn == 'n' || yn == 'N') {
+			cout << "메인 메뉴로 돌아갑니다." << endl;
+		}
+		else {
+			cout << "올바른 번호를 입력하세요" << endl;
+		}
+		}
+	}
