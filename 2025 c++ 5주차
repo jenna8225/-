@@ -1,0 +1,126 @@
+#include <iostream>
+#include <vector>
+#include <string>
+using namespace std;
+
+class Information {
+private:
+    string title;
+    string author;
+
+public:
+    Information(string t, string a) : title(t), author(a) {}
+
+    string Title() {
+        return title; 
+    }
+    string Author() {
+        return author; 
+    }
+
+    void setTitle(string t) {
+        title = t; 
+    }
+    void setAuthor(string a) {
+        author = a; 
+    }
+
+    void print() {
+        cout << "제목 : " << title << endl;
+        cout << "저자 : " << author << endl;
+    }
+};
+
+Information* findbook(vector<Information>& books, string& title, string& author) {
+    for (Information& book : books) {        //books 벡터에 들어 있는 Information 객체들을 하나씩 꺼내서, book이라는 이름으로 반복 처리
+        if (book.Title() == title && book.Author() == author) {
+            return &book;                   //반환값 주소로 하기 <- 포인터로 값 불러옴
+        }
+    }
+    return nullptr;                     //책을 못찾으면 null값을 가지도록 한다
+}
+
+int main() {
+    vector<Information> books;
+    int num;
+
+    while (true) {
+        cout << "***** 도서 정보 관리 프로그램 *****\n";
+        cout << "1. 도서 추가\n2. 도서 검색\n3. 도서 정보 수정\n4. 프로그램 종료\n";
+        cout << "번호를 입력하세요: ";
+        cin >> num;
+
+        switch (num) {
+        case 1: {
+            string title, author;
+            cout << "***** 도서 추가를 진행합니다 *****\n";
+            cout << "도서 제목을 입력하세요: ";
+            cin >> title;
+            cout << "도서 저자를 입력하세요: ";
+            cin >> author;
+
+            Information* found = findbook(books, title, author);
+            if (found != nullptr) {          
+                cout << "이미 등록된 도서입니다.\n";
+            }
+            else {
+                books.push_back(Information(title, author));
+                cout << "도서가 성공적으로 추가되었습니다.\n";
+            }
+            break;
+        }
+        case 2: {
+            string title, author;
+            cout << "***** 도서 검색을 진행합니다 *****\n";
+            cout << "도서 제목을 입력하세요: ";
+            cin>>title;
+            cout << "도서 저자를 입력하세요: ";
+            cin>>author;
+
+            Information* found = findbook(books, title, author);
+            if (found != nullptr) {          //null값 안가짐 = 책 존재
+                cout << "도서를 찾았습니다:\n";
+                found -> print();      //found 에 있는 title, author 프린트함수에 넣어서 출력
+            }
+
+            else {
+                cout << "일치하는 도서를 찾을 수 없습니다.\n";
+            }
+            break;
+        }
+        case 3: {
+            string title, author;
+            cout << "***** 도서 정보를 수정합니다 *****\n";
+            cout << "수정할 도서 제목을 입력하세요: ";
+            cin >> title;
+            cout << "수정할 도서 저자를 입력하세요: ";
+            cin>>author;
+
+            Information* found = findbook(books, title, author);
+            if (found != nullptr) {
+                string newTitle, newAuthor;
+                cout << "새로운 도서 제목을 입력하세요: ";
+                cin>> newTitle;
+                cout << "새로운 도서 저자를 입력하세요: ";
+                cin>>newAuthor;
+
+                found->setTitle(newTitle);
+                found->setAuthor(newAuthor);
+                cout << "도서 정보가 성공적으로 수정되었습니다.\n";
+            }
+            else {
+                cout << "일치하는 도서를 찾을 수 없습니다.\n";
+            }
+            break;
+        }
+        case 4:
+            cout << "프로그램을 종료합니다.\n";
+            return 0;
+        default:
+            cout << "정확한 번호를 입력하세요.\n";
+            break;
+        }
+    }
+
+    return 0;
+}
